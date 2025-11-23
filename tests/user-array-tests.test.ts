@@ -1,5 +1,6 @@
 import {test, expect, request, APIRequestContext} from '@playwright/test';
 import {UserDTO} from "./DTO/UserDTO";
+import {StatusCodes} from "http-status-codes";
 
 let baseURLWithEndpoint: string = 'http://localhost:3000/users';
 
@@ -17,7 +18,7 @@ test.describe('User management API', () => {
         await prepareEnv(request);
         await UserDTO.createUsers(5, request);
         const responseUsers = await request.get(`${baseURLWithEndpoint}`);
-        expect(responseUsers.status()).toBe(200);
+        expect(responseUsers.status()).toBe(StatusCodes.OK);
         const responseBody: UserDTO[] = await responseUsers.json()
         console.log(responseBody)
         expect(responseBody.length).toBe(5);
